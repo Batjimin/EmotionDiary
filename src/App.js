@@ -41,30 +41,19 @@ export const DiaryDispatchContext = React.createContext();
 
 const dummyData = [
   {
-    id:1,
+    id:0,
     emotion: 1,
-    content: "일기 1번",
+    content: "무슨 일이 일어나고 있나요?",
     date: 1685717159447
   },
-  {
-    id:2,
-    emotion: 2,
-    content: "일기 2번",
-    date: 1685717159448
-  },
-  {
-    id:3,
-    emotion: 3,
-    content: "일기 3번",
-    date: 1685717159449
-  }
+
 ]
 
 function App(){
 
   const [data,dispatch] = useReducer(reducer,dummyData) 
 
-  const dataId = useRef(0);
+  const dataId = useRef(1);
   //CREATE
   const onCreate = (date,content,emotion)=>{
     dispatch({
