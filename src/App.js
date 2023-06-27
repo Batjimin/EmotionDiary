@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 import "./App.css";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 
@@ -14,10 +14,7 @@ const reducer = (state,action)=>{
       return action.data;
     }
     case 'CREATE':{
-      const newItem = {
-        ...action.data
-      };
-      newState = [newItem, ...state];
+      newState = [action.data, ...state];
       break; /**default수행 방지 */
     }
     case 'REMOVE':{
@@ -33,27 +30,20 @@ const reducer = (state,action)=>{
     default:
       return state;
   }
+  localStorage.setItem("diary",JSON.stringify(newState));
   return newState;
-}
+};
 
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
-const dummyData = [
-  {
-    id:0,
-    emotion: 1,
-    content: "무슨 일이 일어나고 있나요?",
-    date: 1685717159447
-  },
-
-]
-
 function App(){
 
-  const [data,dispatch] = useReducer(reducer,dummyData) 
+  const [data,dispatch] = useReducer(reducer,[]);
 
-  const dataId = useRef(1);
+  
+ 
+  const dataId = useRef(0);
   //CREATE
   const onCreate = (date,content,emotion)=>{
     dispatch({
