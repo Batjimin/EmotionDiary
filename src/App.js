@@ -14,10 +14,7 @@ const reducer = (state,action)=>{
       return action.data;
     }
     case 'CREATE':{
-      const newItem = {
-        ...action.data
-      };
-      newState = [newItem, ...state];
+      newState = [action.data, ...state];
       break; /**default수행 방지 */
     }
     case 'REMOVE':{
@@ -33,31 +30,17 @@ const reducer = (state,action)=>{
     default:
       return state;
   }
-
-  localStorage.setItem('diary',JSON.stringify(newState));
   return newState;
-}
+};
 
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
 function App(){
 
-  const [data,dispatch] = useReducer(reducer,[]) 
+  const [data,dispatch] = useReducer(reducer,dummyData) 
 
-  useEffect(()=>{
-    const localData = localStorage.getItem('diary');
-    if(localData){
-      const diaryList = JSON.parse(localData).sort(
-        (a,b)=>parseInt(b.id)-parseInt(a.id)
-      );
-      dataId.current = parseInt(diaryList[0].id) + 1;
-
-      dispatch({type:"INIT", data:diaryList});
-    }
-  },[])
-
-  const dataId = useRef(0);
+  const dataId = useRef(1);
   //CREATE
   const onCreate = (date,content,emotion)=>{
     dispatch({
